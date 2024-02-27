@@ -10,8 +10,11 @@
     "@react-stately/menu": "3.4.4",
     "@react-stately/tree": "3.4.1",
     "react": "^18.2.0",
+    "react-aria": "^3.32.1",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
+    "react-stately": "^3.30.1",
+    "styled-components": "^6.1.8",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

@@ -4,7 +4,6 @@ import React, {
   ReactElement,
   useLayoutEffect,
   useRef,
-  useState,
 } from "react";
 import { Item } from "@react-stately/collections";
 import styles from "./Menu.module.css";
@@ -27,7 +26,7 @@ import {
 import { TreeState } from "@react-stately/tree";
 import clsx from "clsx";
 import { useHover } from "@react-aria/interactions";
-
+import MenuButton from "../SubmenuButton/SubmenuButton";
 export type SapphireMenuProps<T extends object> = AriaMenuProps<T> &
   MenuTriggerProps & {
     renderTrigger: (
@@ -45,6 +44,7 @@ interface MenuItemProps<T> {
   onAction?: (key: Key) => void;
   onClose: () => void;
   disabledKeys?: Iterable<Key>;
+  children?: React.ReactNode;
 }
 
 export function MenuItem<T>({
@@ -115,27 +115,13 @@ const MenuPopup = <T extends object>(
 
         if (Array.isArray(item.props.children)) {
           return (
-            <>
-              <Menu
-                renderTrigger={(myprops) => (
-                  <MenuItem
-                    {...myprops}
-                    item={item}
-                    state={state}
-                    onClose={props.onClose || (() => {})}
-                    onAction={props.onAction}
-                    disabledKeys={props.disabledKeys}
-                  />
-                )}
-                onAction={alert}
-                shouldFlip={true}
-              >
+            <li role="menuitem">
+              <MenuButton label="Movew" onAction={alert}>
                 <Item key="move-to-shared">Shared</Item>
                 <Item key="move-to-desktop">Desktop</Item>
                 <Item key="move-to-favorite">Favorite</Item>
-                <Item key="move-to-favorited">Fkavorite</Item>
-              </Menu>
-            </>
+              </MenuButton>
+            </li>
           );
         }
 
@@ -214,5 +200,5 @@ function _Menu<T extends object>(
 
 export const Menu = React.forwardRef(_Menu) as <T extends object>(
   props: SapphireMenuProps<T>,
-  ref: FocusableRef<HTMLButtonElement>
+  ref: FocusableRef<HTMLButtonElement | HTMLLIElement>
 ) => ReactElement;
