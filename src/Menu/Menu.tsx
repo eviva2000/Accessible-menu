@@ -115,8 +115,9 @@ const MenuPopup = <T extends object>(
 
         if (Array.isArray(item.props.children)) {
           return (
+            // The button element here is not accesible by keyboard and my assumption was that it needs to be wrapped by a MenuItem OR to be a MenuItem to be accessible by keyboard.
             <li role="menuitem">
-              <MenuButton label="Movew" onAction={alert}>
+              <MenuButton label="Move to" onAction={alert}>
                 <Item key="move-to-shared">Shared</Item>
                 <Item key="move-to-desktop">Desktop</Item>
                 <Item key="move-to-favorite">Favorite</Item>

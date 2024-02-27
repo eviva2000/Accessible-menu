@@ -10,7 +10,7 @@ interface PopoverProps extends Omit<AriaPopoverProps, "popoverRef"> {
 
 function Popover({ children, state, offset = 8, ...props }: PopoverProps) {
   let popoverRef = React.useRef(null);
-  let { popoverProps, underlayProps, arrowProps, placement } = usePopover(
+  let { popoverProps, underlayProps } = usePopover(
     {
       ...props,
       offset,
