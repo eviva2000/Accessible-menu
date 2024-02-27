@@ -4,8 +4,9 @@ import React, {
   ReactElement,
   useLayoutEffect,
   useRef,
+  useState,
 } from "react";
-
+import { Item } from "@react-stately/collections";
 import styles from "./Menu.module.css";
 import { AriaMenuProps, MenuTriggerProps } from "@react-types/menu";
 import { useMenuTriggerState } from "@react-stately/menu";
@@ -65,7 +66,6 @@ export function MenuItem<T>({
     state,
     ref
   );
-
   const { hoverProps, isHovered } = useHover({ isDisabled });
   const { focusProps, isFocusVisible } = useFocusRing();
 
@@ -89,6 +89,8 @@ export function MenuItem<T>({
   );
 }
 
+/// MenuPopup
+
 const MenuPopup = <T extends object>(
   props: {
     autoFocus: FocusStrategy;
@@ -100,11 +102,43 @@ const MenuPopup = <T extends object>(
   const menuRef = useRef<HTMLUListElement>(null);
   const { menuProps } = useMenu(props, state, menuRef);
   return (
-    <ul {...menuProps} ref={menuRef} className={styles["sapphire-menu"]}>
+    <ul
+      {...menuProps}
+      ref={menuRef}
+      className={styles["sapphire-menu"]}
+      aria-label="Menu"
+    >
       {[...state.collection].map((item) => {
         if (item.type === "section") {
           throw new Error("Sections not supported");
         }
+
+        if (Array.isArray(item.props.children)) {
+          return (
+            <>
+              <Menu
+                renderTrigger={(myprops) => (
+                  <MenuItem
+                    {...myprops}
+                    item={item}
+                    state={state}
+                    onClose={props.onClose || (() => {})}
+                    onAction={props.onAction}
+                    disabledKeys={props.disabledKeys}
+                  />
+                )}
+                onAction={alert}
+                shouldFlip={true}
+              >
+                <Item key="move-to-shared">Shared</Item>
+                <Item key="move-to-desktop">Desktop</Item>
+                <Item key="move-to-favorite">Favorite</Item>
+                <Item key="move-to-favorited">Fkavorite</Item>
+              </Menu>
+            </>
+          );
+        }
+
         return (
           <MenuItem
             key={item.key}

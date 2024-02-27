@@ -13,7 +13,7 @@ import { useModal, useOverlay, OverlayContainer } from "@react-aria/overlays";
 
 type PopoverProps = Omit<AriaPopoverProps, "arrowProps" | "hideArrow"> & {
   className?: string;
-  style: CSSProperties;
+  style?: CSSProperties;
 };
 
 /**
